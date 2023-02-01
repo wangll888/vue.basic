@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <script type="text/javascript" src="../js/vue.js"></script>
+
+    </head>
+    <body>
+        <div id="root">
+<!--            <h2>学校名称：{{name}}</h2>-->
+<!--            <h2>学校地址：{{address}}</h2>-->
+        </div>
+
+    </body>
+    <script type="text/javascript">
+        Vue.config.productionTip = false
+
+        let data = {
+            name: '尚硅谷',
+            address: '北京'
+        }
+
+        // 模拟 Vue 做数据代理
+        // 创建一个坚实的实例对象，用于监视data中属性的变化
+        const obs = new Observer(data)
+        console.log(obs)
+
+        // 准备一个vm实例对象
+        let vm = {}
+        vm._data = data = obs
+
+        function Observer(obj){
+            // 汇总对象中所以属性形成一个数组
+            const keys = Object.keys(obj)
+            //遍历
+            keys.forEach((k)=>{
+                Object.defineProperty(this,k,{
+                    get(){
+                        return obj[k]
+                    },
+                    set(val){
+                        obj[k] = val
+                    }
+                })
+            })
+        }
+
+
+
+        // 定时器
+        /*let tmp = '尚硅谷'
+        setInterval(() => {
+            if (date.name !== '尚硅谷') {
+                tmp = date.name
+                console("name 被改了。。。")
+            }
+        }, 100)*/
+    </script>
+</html>
