@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-once指令</title>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+    <script type="text/javascript" src="../js/vue.js"></script>
+<!--    <script type="text/javascript" src="../js/dayjs.min.js"></script>-->
+</head>
+<body>
+
+<!--
+   本节43：
+   js阻塞：
+
+        v-once 指令（没有值）：
+            1.v-once所在节点在初次动态渲染后，就视为静态内容了。
+            2.以后的数据的改变不会引起v-once素质结构的更新，可以用于优化性能。
+  -->
+<!-- 准备一个容器 -->
+<div id="root">
+
+    <h2 v-once>初始化的n的值：{{n}}</h2>
+    <h2>当前n的值是：{{n}}</h2>
+    <button @click="n++">点我n+1</button>
+</div>
+
+</body>
+<script type="text/javascript">
+    Vue.config.productionTip = false // 阻止 Vue 在启动时生成生产提示
+
+    new Vue({
+        el: '#root',
+        data: {
+            n: 1,
+        }
+    })
+
+
+</script>
+</html>
