@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分析生命周期</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+
+<!--
+   本节49-52：
+    生命周期:
+        vm的一生（vm的生命周期）
+            将要创建 ===>  调用beforeCreate函数
+            创建完毕 ===>  调用created函数
+            将要挂载 ===>  调用beforeMount函数
+       (重要)挂载完毕 ===>  调用mount函数  ===============>[重要的钩子] 开启定时器、发起网络请求、订阅消息、绑定自定义事件等等
+            将要更新 ===>  调用 beforeUpdate 函数
+            更新完毕 ===>  调用 update 函数
+       (重要)将要销毁 ===>  调用 beforeDestroy 函数 ===============>[重要的钩子] 关闭定时器、取消消息订阅
+            销毁完毕 ===>  调用 destroy 函数
+
+  -->
+
+<!-- 准备一个容器 -->
+<div id="root">
+    <h2 >当前的n值是：{{n}}</h2>
+    <button @click="add">点我n+1</button>
+    <button @click="bye">点我销毁vm</button>
+
+</div>
+
+</body>
+<script type="text/javascript">
+    Vue.config.productionTip = false // 阻止 Vue 在启动时生成生产提示
+
+
+    const vm = new Vue({
+        el: '#root',
+        // template:'<h2 >当前的n值是：{{n}}</h2>',
+        /*template:`
+          <div>
+              <h2 >当前的n值是：{{n}}</h2>
+              <button @click="add">点我n+1</button>
+              <button @click="bye">点我销毁vm</button>
+          </div>
+          `,*/
+        data: {
+            n: 1,
+        },
+        methods:{
+            add(){
+                this.n++
+            },
+            bye(){
+                console.log("bye")
+                this.$destroy()
+            }
+        },
+        // 创建数据之前
+        beforeCreate(){
+            console.log("beforeCreate")
+            // debugger 断点
+        },
+        create(){
+            console.log("create")
+        },
+        //再此方法操作的DOM最终都不奏效
+        beforeMount(){
+            console.log("beforeMount")
+            // console.log(this)
+        },
+        mounted(){
+            //再此方法操作的DOM最终会奏效，但尽量不用
+            console.log("mounted")
+            // console.log(this)
+            // document.querySelector("h2").innerText = "123"
+        },
+        //此时DOM数据是新的，但页面不是新的
+        beforeUpdate(){
+            console.log("beforeUpdate")
+        },
+        //此时DOM数据是新的，但页面不也是新的
+        updated(){
+            console.log("updated")
+        },
+        beforeDestroy(){
+            console.log("beforeDestroy")
+            // 方法执行了，数据也变了，但是不会更新页面
+            this.add()
+        },
+        destroyed(){
+            console.log("destroyed")
+        }
+    })
+
+</script>
+</html>
